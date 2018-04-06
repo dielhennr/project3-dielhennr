@@ -72,7 +72,8 @@ public class Driver {
 				adjList.addEdge(source, newE);
 			}
 			
-			BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
+			//BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
+			DepthFirstSearch.search(adjList);
 		}catch(FileNotFoundException fnf) {
 			System.out.println("File Not Found");
 			System.out.println("Usage: java Driver <file>.csv startNode minimumRating");

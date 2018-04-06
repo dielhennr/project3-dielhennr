@@ -31,6 +31,10 @@ public class AdjacencyList {
 		return vertexArr[vertex];
 	}
 
+	public Vertex[] getVertices() {
+		return this.vertexArr;
+	}
+
 	/**
 	 * Adds an edge to a given vertex.
 	 * @param e
