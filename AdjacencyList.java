@@ -51,16 +51,4 @@ public class AdjacencyList {
 	public int numEdges(int vertex) {
 		return vertexArr[vertex].getNumEdges();
 	}
-
-	public static void main(String[] args) {
-		AdjacencyList adj = new AdjacencyList(3);
-		adj.addEdge(0, new Edge(1,3));
-		adj.addEdge(1, new Edge(2,2));
-		adj.addEdge(2, new Edge(0,1));
-		adj.addEdge(2, new Edge(1,1));
-		System.out.println(adj.numEdges(2));
-	}
-
-	
-
 }

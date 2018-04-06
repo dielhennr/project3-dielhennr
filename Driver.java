@@ -3,13 +3,22 @@ import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.LinkedList;
+
+/**
+ * Program that builds a directed graph of bitcoin users given a user inputed csv file. 
+ * Breadth first search is performed on the graph given a starting user and a mimimum rating. 
+ * Users are only visited if they have a rating greater than or equal to the minimum rating
+ * 
+ * Usage: java Driver <fileName>.csv startNode minimumRating
+ * @author dielhennr
+ */
 public class Driver {
 
 	public static void main(String[] args) {
 
 		if (args.length != 3) {
 			System.out.println("--------------------------------------------------------------------------------------------");
-			System.out.println("Usage: java Driver <file>.csv startNode minimumRating");
+			System.out.println("Usage: java Driver <fileName>.csv startNode minimumRating");
 			System.out.println("--------------------------------------------------------------------------------------------");
 			System.out.println("This program reads a file of edges of a graph and finds all nodes reachable by a start node");
 			System.out.println("given a minimum edge rating. Each line of the file is an edge and each edge is formatted with");
@@ -29,7 +38,7 @@ public class Driver {
 			minRating = Integer.parseInt(args[2]);
 		}catch(NumberFormatException e) {
 			System.out.println("------------------------------------------------------");
-			System.out.println("Usage: java Driver <file>.csv startNode minimumRating");
+			System.out.println("Usage: java Driver <fileName>.csv startNode minimumRating");
 			System.out.println("------------------------------------------------------");
 			System.out.println("Please enter Integers for startNode and minimumRating");
 			System.out.println("------------------------------------------------------");
@@ -62,25 +71,6 @@ public class Driver {
 				Edge newE = new Edge(dest, rating);
 				adjList.addEdge(source, newE);
 			}
-			/*
-			for (int i = 0; i < adjList.size(); i++) {
-				LinkedList<Edge> vertex = adjList.getVertex(i).getEdges();
-				if (vertex.peekFirst() != null){
-					try{
-						System.out.println("Vertex: " + i);
-						for (Edge e : vertex) {
-							System.out.println("dest: " + e.getDest() + "\nrating: " + e.getRating());
-						}
-						System.out.println("-----------");
-					}catch(NoSuchElementException e){
-						System.out.println("catch");
-					}
-				}else{
-					System.out.println("Vertex: " + i + " has no edges");
-				}
-
-			}
-			*/
 			
 			BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
 		}catch(FileNotFoundException fnf) {
