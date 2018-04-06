@@ -1,4 +1,8 @@
 import java.util.LinkedList;
+/**
+ * Adjacency List representation of a directed graph.
+ * @author dielhennr
+ */
 public class AdjacencyList {
 
 	private Vertex[] vertexArr;
