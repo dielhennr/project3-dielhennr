@@ -12,15 +12,18 @@ public class BreadthFirstSearch {
 	 * have rating greater than or equal to minRating
 	 * @param graph, v, minRating
 	 */
-	public static void search(AdjacencyList graph, Vertex v, int minRating) {
+	public static int search(AdjacencyList graph, Vertex v, int minRating) {
 
 		//instantiate vertex queue and boolean array
 		Queue<Vertex> vertexQ = new LinkedList<>();
 		boolean[] visited = new boolean[graph.size()];
+		int visitCount;
 		
 		//add start vertex to queue and visit it.
 		vertexQ.offer(v);
 		visited[v.getVertexVal()] = true;
+		visitCount = 0;
+
 
 		//while the queue is not empty
 		while(vertexQ.peek() != null) {
@@ -32,11 +35,13 @@ public class BreadthFirstSearch {
 				//visit a neighboring vertex if it has not been visited and satisfies the minimum rating
 				if (!visited[newV.getVertexVal()] && e.getRating() >= minRating){
 					visited[newV.getVertexVal()] = true;
-					System.out.println("Visited: " + newV.getVertexVal());
+					visitCount++;
+					System.out.println(v.getVertexVal() + " :Visited: " + newV.getVertexVal());
 					//add visited vertex to queue
 					vertexQ.offer(newV);
 				}
 			}
 		}
+		return visitCount;
 	}
 }
