@@ -5,43 +5,51 @@ import java.util.LinkedList;
  * @author dielhennr
  */
 public class DepthFirstSearch{
+	/**
+	 * Plan: need to sum over costs of every possible path from startVertex to destVertex 
+	 * and then average the costs. For instance if there are 3 paths from start vertex a to some destination
+	 * vertex b, one with average rating of 5, another with 6, and another with 1, then the average rating is 4. (12/3)
+	 * Start vertex contains a linked list of it's edges, from this we can get to new vertices in the graph and sum 
+	 * across edge weights with a modified depth first search.
+	 */
 
+	/**
+	 * Setup: need to keep track of each paths individual average, we will use a linked list to store individual path averages. 
+	 * We add a value to the linked list once we reach the destination vertex.
+	 */
 	private LinkedList<Double> averagePathRatings;
 	private AdjacencyList graph;
 
+	/**
+	 * Constructor that accepts the graph that will be searched on and instantiates the linked
+	 * list for path averages.
+	 * @param graph
+	 */
 	public DepthFirstSearch(AdjacencyList graph) {
 		this.graph = graph;
 		averagePathRatings = new LinkedList<Double>();
 	}
 
+	/**
+	 * Begins a search of paths from startVertex to destVertex 
+	 * @param startVertex, destVertex
+	 * @return sumPathAvgs / countPaths (average of all average path ratings)
+	 */
 	public double search(Vertex startVertex, Vertex destVertex) {
 
-		/**
-		 * Plan: need to sum over costs of every possible path from startVertex to destVertex 
-		 * and then average the costs. For instance if there are 3 paths from start vertex a to some destination
-		 * vertex b, one with average rating of 5, another with 6, and another with 1, then the average rating is 4. (12/3)
-		 * Start vertex contains a linked list of it's edges, from this we can get to new vertices in the graph and sum 
-		 * across edge weights with a modified depth first search.
-		 */
-
-		/**
-		 * Setup: need to keep track of the edge total edge costs along the path as well as the number of edges in the path.
-		 * We will use a double to sum the costs and an int the count the edges. Also need to keep track of each paths individual
-		 * average, we will use a linked list to store individual path averages. We add a value to the linked list once we reach the 
-		 * destination vertex.
-		 *
-		 * For instance say we want to get from vertex 0 to vertex 3 and these are our edges formatted fromV -cost- toV 
-		 * 0 -1- 1, 1 -4- 3, 1 -5- 5, 5 -2- 3, vertex one has two outgoing edges that are both valid paths to 3. This
-		 * means that the path total from 0 to 1 should be multiplied by 2. this is because we count these edges twice since we 
-		 * fork.   
-		 */
+		double pathCost;
+		int numEdges;
+		boolean[] visited;
 		
-
+		//for every outgoing edge from startVertex
 		for (Edge e : startVertex.getEdges()) {
 			//start path/edge count to 0 for each outgoing edge from the start vertex
-			double pathCost = 0;
-			int numEdges = 0;
-			boolean[] visited = new boolean[graph.size()];
+			pathCost = 0;
+			numEdges = 0;
+
+			//create a new boolean array to see if we have already visited a specific vertex.
+			//each outgoing edge will start fresh
+			visited = new boolean[graph.size()];
 
 			//if the vertex right next to the start vertex is the destination then we just add than edges cost to the ll
 			if (e.getDest() == destVertex.getVertexVal()) {
@@ -57,26 +65,39 @@ public class DepthFirstSearch{
 			}
 		}
 
+		//once we are done searched we have all average path ratings from startVertex to destVertex in the linked list
 		int countPaths = 0;
 		double sumPathAvgs = 0;
 		for (Double d : averagePathRatings) {
 			sumPathAvgs += d;
 			countPaths++;
 		}
-
+		//return the average of each individual path average
 		return (((double)sumPathAvgs) / countPaths);
 		
 	}
 
+	/**
+	 * Visits a new vertex, goes the that vertex's outgoing edges and then visits new vertices if they have not been visited.
+	 * Sums across path ratings and counts edges.
+	 * @param startVertex, destVertex, pathCost, numEdges, visited
+	 *
+	 */
 	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited) {
+		//Create new temp counters of the current path cost and number of edges since every edge needs the original counts.
 		double tempCost;
 		int tempEdges;
+
+		//if we reach a vertex that has already been visited, return.
 		if (visited[startVertex.getVertexVal()]) {
 			return;
 		}
+
 		visited[startVertex.getVertexVal()] = true;
+
+		//for every outgoing edge
 		for (Edge e : startVertex.getEdges()) {
-			//use temp variables since we may be visiting multiple edges.
+			//reset temp variables
 			tempCost = pathCost;
 			tempEdges = numEdges;
 
