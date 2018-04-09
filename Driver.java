@@ -76,8 +76,8 @@ public class Driver {
 			
 			//int bfsVisits = BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
 			//System.out.println("Number of visits: " + bfsVisits);
-			double avg = DFS2.search(adjList, adjList.getVertex(startNode), adjList.getVertex(destNode));
-			System.out.println(avg);
+			double average = DFS2.search(adjList, adjList.getVertex(startNode), adjList.getVertex(destNode));
+			System.out.println(average);
 		}catch(FileNotFoundException fnf) {
 			System.out.println("File Not Found");
 			System.out.println("Usage: java Driver <file>.csv startNode minimumRating");
