@@ -76,7 +76,9 @@ public class Driver {
 			
 			//int bfsVisits = BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
 			//System.out.println("Number of visits: " + bfsVisits);
-			double average = DFS2.search(adjList, adjList.getVertex(startNode), adjList.getVertex(destNode));
+
+			DepthFirstSearch pathfinder = new DepthFirstSearch(adjList);
+			double average = pathfinder.search(adjList.getVertex(startNode), adjList.getVertex(destNode));
 			System.out.println(average);
 		}catch(FileNotFoundException fnf) {
 			System.out.println("File Not Found");

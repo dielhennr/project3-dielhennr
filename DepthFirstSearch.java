@@ -4,9 +4,17 @@ import java.util.LinkedList;
  * Uses a modified Depth First Search to do so.
  * @author dielhennr
  */
-public class DFS2{
+public class DepthFirstSearch{
 
-	public static double search(AdjacencyList graph, Vertex startVertex, Vertex destVertex) {
+	private LinkedList<Double> averagePathRatings;
+	private AdjacencyList graph;
+
+	public DepthFirstSearch(AdjacencyList graph) {
+		this.graph = graph;
+		averagePathRatings = new LinkedList<Double>();
+	}
+
+	public double search(Vertex startVertex, Vertex destVertex) {
 
 		/**
 		 * Plan: need to sum over costs of every possible path from startVertex to destVertex 
@@ -27,17 +35,17 @@ public class DFS2{
 		 * means that the path total from 0 to 1 should be multiplied by 2. this is because we count these edges twice since we 
 		 * fork.   
 		 */
-		LinkedList<Double> pathAvgs = new LinkedList<Double>();
 		
 
 		for (Edge e : startVertex.getEdges()) {
 			//start path/edge count to 0 for each outgoing edge from the start vertex
 			double pathCost = 0;
 			int numEdges = 0;
+			boolean[] visited = new boolean[graph.size()];
 
 			//if the vertex right next to the start vertex is the destination then we just add than edges cost to the ll
 			if (e.getDest() == destVertex.getVertexVal()) {
-				pathAvgs.add((double)e.getRating());
+				averagePathRatings.add((double)e.getRating());
 
 			}else/*otherwise we visit the next vertex*/{
 
@@ -45,13 +53,13 @@ public class DFS2{
 				pathCost += e.getRating();
 				numEdges++;			
 				//pass the edge count and path cost variables when visiting next vertex
-				visit(graph, graph.getVertex(e.getDest()), destVertex, pathAvgs, pathCost, numEdges);
+				visit(graph.getVertex(e.getDest()), destVertex, pathCost, numEdges, visited);
 			}
 		}
 
 		int countPaths = 0;
 		double sumPathAvgs = 0;
-		for (Double d : pathAvgs) {
+		for (Double d : averagePathRatings) {
 			sumPathAvgs += d;
 			countPaths++;
 		}
@@ -60,14 +68,17 @@ public class DFS2{
 		
 	}
 
-	public static void visit(AdjacencyList graph, Vertex startVertex, Vertex destVertex, LinkedList<Double> pathAvgs,
-	 double pathCost, int numEdges) {
-
-		
+	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited) {
+		double tempCost;
+		int tempEdges;
+		if (visited[startVertex.getVertexVal()]) {
+			return;
+		}
+		visited[startVertex.getVertexVal()] = true;
 		for (Edge e : startVertex.getEdges()) {
 			//use temp variables since we may be visiting multiple edges.
-			double tempCost = pathCost;
-			int tempEdges = numEdges;
+			tempCost = pathCost;
+			tempEdges = numEdges;
 
 			//if we reached the dest vertex 
 			if (e.getDest() == destVertex.getVertexVal()) {
@@ -75,14 +86,14 @@ public class DFS2{
 				tempCost += e.getRating();
 				tempEdges++;
 				//add the average path cost to the ll
-				pathAvgs.add((double)(tempCost/tempEdges));
+				averagePathRatings.add((double)(tempCost/tempEdges));
 			}
 			//visit until we find destVertex
-			else{
+			else {
 				//summing costs
 				tempEdges++;
 				tempCost += e.getRating();
-				visit(graph, graph.getVertex(e.getDest()), destVertex, pathAvgs, tempCost, tempEdges);
+				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited);
 			}
 		}
 	}
