@@ -36,7 +36,7 @@ public class BreadthFirstSearch {
 				if (!visited[newV.getVertexVal()] && e.getRating() >= minRating){
 					visited[newV.getVertexVal()] = true;
 					visitCount++;
-					System.out.println(v.getVertexVal() + " :Visited: " + newV.getVertexVal());
+					System.out.println(newV.getVertexVal());
 					//add visited vertex to queue
 					vertexQ.offer(newV);
 				}

@@ -39,17 +39,12 @@ public class DepthFirstSearch{
 
 		double pathCost;
 		int numEdges;
-		boolean[] visited;
 		
 		//for every outgoing edge from startVertex
 		for (Edge e : startVertex.getEdges()) {
 			//start path/edge count to 0 for each outgoing edge from the start vertex
 			pathCost = 0;
 			numEdges = 0;
-
-			//create a new boolean array to see if we have already visited a specific vertex.
-			//each outgoing edge will start fresh
-			visited = new boolean[graph.size()];
 
 			//if the vertex right next to the start vertex is the destination then we just add than edges cost to the ll
 			if (e.getDest() == destVertex.getVertexVal()) {
@@ -83,20 +78,17 @@ public class DepthFirstSearch{
 	 * @param startVertex, destVertex, pathCost, numEdges, visited
 	 *
 	 */
-	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited) {
+	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges) {
 		//Create new temp counters of the current path cost and number of edges since every edge needs the original counts.
 		double tempCost;
 		int tempEdges;
 
-		//if we reach a vertex that has already been visited, return.
-		if (visited[startVertex.getVertexVal()]) {
-			return;
-		}
-
-		visited[startVertex.getVertexVal()] = true;
 
 		//for every outgoing edge
 		for (Edge e : startVertex.getEdges()) {
+			if (e.wasCrossed()) {
+				return;
+			}
 			//reset temp variables
 			tempCost = pathCost;
 			tempEdges = numEdges;
@@ -106,6 +98,7 @@ public class DepthFirstSearch{
 				//we found a valid path, add final edge rating and edge
 				tempCost += e.getRating();
 				tempEdges++;
+				startVertex.foundDest();
 				//add the average path cost to the ll
 				averagePathRatings.add((double)(tempCost/tempEdges));
 			}
@@ -114,9 +107,14 @@ public class DepthFirstSearch{
 				//summing costs
 				tempEdges++;
 				tempCost += e.getRating();
-				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited);
+				boolean found = visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited);
+
+				if (found) {
+					startVertex.foundDest();
+				}
 			}
 		}
+		return false;
 	}
 
 }

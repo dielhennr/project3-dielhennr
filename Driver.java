@@ -21,7 +21,7 @@ public class Driver {
 			System.out.println("Usage: java Driver <fileName>.csv startNode minimumRating algo");
 			System.out.println("--------------------------------------------------------------------------------------------");
 			System.out.println("This program reads a file of edges of a graph and finds all nodes reachable by a start node");
-			System.out.println("given a minimum edge rating if 0 is entered for algo. If 1 is entered then minimumRating becomes");
+			System.out.println("given a minimum edge rating if 0 is entered for algo. If 1 is entered then minimumRating");
 			System.out.println("is instead the destination node and all path reputations from start to destination are averaged.");
 			System.out.println("Each line of the file is an edge and each edge is formatted"); 
 			System.out.println("with integer entries as follows: <source> , <destination> , <rating>");
@@ -79,13 +79,14 @@ public class Driver {
 			}
 			
 			if (algo == 0){
+				System.out.println("Reachable users with minimum rating of: " + minRating);
 				int bfsVisits = BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
-				System.out.println("Number of reachable nodes: " + bfsVisits);
+				System.out.println("Number of reachable users: " + bfsVisits);
 			}
 			else if (algo == 1){
-				DepthFirstSearch pathfinder = new DepthFirstSearch(adjList);
-				double average = pathfinder.search(adjList.getVertex(startNode), adjList.getVertex(destNode));
-				System.out.println(average);
+				//DepthFirstSearch pathfinder = new DepthFirstSearch(adjList);
+				//double average = pathfinder.search(adjList.getVertex(startNode), adjList.getVertex(destNode));
+				//System.out.println(average);
 			}else{
 				System.out.println("Enter 0 for BFS and 1 for DFS.");
 				System.out.println("If using DFS enter the destination node instead of min rating");
