@@ -56,7 +56,7 @@ public class DepthFirstSearch{
 				pathCost += e.getRating();
 				numEdges++;			
 				//pass the edge count and path cost variables when visiting next vertex
-				visit(graph.getVertex(e.getDest()), destVertex, pathCost, numEdges, visited);
+				visit(graph.getVertex(e.getDest()), destVertex, pathCost, numEdges);
 			}
 		}
 
@@ -86,9 +86,6 @@ public class DepthFirstSearch{
 
 		//for every outgoing edge
 		for (Edge e : startVertex.getEdges()) {
-			if (e.wasCrossed()) {
-				return;
-			}
 			//reset temp variables
 			tempCost = pathCost;
 			tempEdges = numEdges;
@@ -98,7 +95,6 @@ public class DepthFirstSearch{
 				//we found a valid path, add final edge rating and edge
 				tempCost += e.getRating();
 				tempEdges++;
-				startVertex.foundDest();
 				//add the average path cost to the ll
 				averagePathRatings.add((double)(tempCost/tempEdges));
 			}
@@ -107,14 +103,9 @@ public class DepthFirstSearch{
 				//summing costs
 				tempEdges++;
 				tempCost += e.getRating();
-				boolean found = visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited);
-
-				if (found) {
-					startVertex.foundDest();
-				}
+				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges);
 			}
 		}
-		return false;
 	}
 
 }

@@ -2,12 +2,11 @@
 
 ## Usage
 
+**NOTE** DFS is not currently working for large inputs (stackoverflow). Trouble resolving base case for graphs with cycles.
 
 java Driver filename.csv startNode minimumRating 0
 
 or
-
-**NOTE** DFS is not currently working and will not compile
 
 java Driver filename.csv startNode destNode 1
 
