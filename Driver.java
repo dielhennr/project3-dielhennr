@@ -30,12 +30,14 @@ public class Driver {
 
 		int startNode = 0;
 		int minRating = 0;
+		int destNode = 0;
 
 		
 		//Read in minimum rating and start node from command line args.
 		try{
 			startNode = Integer.parseInt(args[1]);
 			minRating = Integer.parseInt(args[2]);
+			destNode = minRating;
 		}catch(NumberFormatException e) {
 			System.out.println("------------------------------------------------------");
 			System.out.println("Usage: java Driver <fileName>.csv startNode minimumRating");
@@ -72,9 +74,10 @@ public class Driver {
 				adjList.addEdge(source, newE);
 			}
 			
-			int bfsVisits = BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
-			System.out.println("Number of visits: " + bfsVisits);
-			//DepthFirstSearch.search(adjList);
+			//int bfsVisits = BreadthFirstSearch.search(adjList, adjList.getVertex(startNode), minRating);
+			//System.out.println("Number of visits: " + bfsVisits);
+			double avg = DFS2.search(adjList, adjList.getVertex(startNode), adjList.getVertex(destNode));
+			System.out.println(avg);
 		}catch(FileNotFoundException fnf) {
 			System.out.println("File Not Found");
 			System.out.println("Usage: java Driver <file>.csv startNode minimumRating");
