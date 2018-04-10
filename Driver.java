@@ -84,9 +84,9 @@ public class Driver {
 				System.out.println("Number of reachable users: " + bfsVisits);
 			}
 			else if (algo == 1){
-				//DepthFirstSearch pathfinder = new DepthFirstSearch(adjList);
-				//double average = pathfinder.search(adjList.getVertex(startNode), adjList.getVertex(destNode));
-				//System.out.println(average);
+				DepthFirstSearch pathfinder = new DepthFirstSearch(adjList);
+				double average = pathfinder.search(adjList.getVertex(startNode), adjList.getVertex(destNode));
+				System.out.println(average);
 			}else{
 				System.out.println("Enter 0 for BFS and 1 for DFS.");
 				System.out.println("If using DFS enter the destination node instead of min rating");

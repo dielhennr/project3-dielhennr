@@ -39,10 +39,12 @@ public class DepthFirstSearch{
 
 		double pathCost;
 		int numEdges;
+		boolean[] visited;
 		
 		//for every outgoing edge from startVertex
 		for (Edge e : startVertex.getEdges()) {
 			//start path/edge count to 0 for each outgoing edge from the start vertex
+			visited = new boolean[this.graph.size()];
 			pathCost = 0;
 			numEdges = 0;
 
@@ -56,13 +58,16 @@ public class DepthFirstSearch{
 				pathCost += e.getRating();
 				numEdges++;			
 				//pass the edge count and path cost variables when visiting next vertex
-				visit(graph.getVertex(e.getDest()), destVertex, pathCost, numEdges);
+				System.out.println("Visiting: " + e.getDest());
+				//visited[e.getDest()] = true;
+				visit(graph.getVertex(e.getDest()), destVertex, pathCost, numEdges, visited);
 			}
 		}
 
 		//once we are done searched we have all average path ratings from startVertex to destVertex in the linked list
 		int countPaths = 0;
 		double sumPathAvgs = 0;
+		System.out.println(averagePathRatings.size());
 		for (Double d : averagePathRatings) {
 			sumPathAvgs += d;
 			countPaths++;
@@ -78,7 +83,7 @@ public class DepthFirstSearch{
 	 * @param startVertex, destVertex, pathCost, numEdges, visited
 	 *
 	 */
-	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges) {
+	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited) {
 		//Create new temp counters of the current path cost and number of edges since every edge needs the original counts.
 		double tempCost;
 		int tempEdges;
@@ -96,14 +101,20 @@ public class DepthFirstSearch{
 				tempCost += e.getRating();
 				tempEdges++;
 				//add the average path cost to the ll
+				System.out.println("path cost: " + tempCost);
 				averagePathRatings.add((double)(tempCost/tempEdges));
+				System.out.println("Averaged with number of edges: " + (double)(tempCost/tempEdges));
+
 			}
 			//visit until we find destVertex
-			else {
+			else if (!visited[e.getDest()]){
 				//summing costs
 				tempEdges++;
 				tempCost += e.getRating();
-				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges);
+				System.out.println("Visiting: " + e.getDest());
+				System.out.println("marking visited");
+				visited[e.getDest()] = true;
+				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited);
 			}
 		}
 	}
