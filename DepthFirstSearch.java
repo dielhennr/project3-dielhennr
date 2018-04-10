@@ -37,32 +37,13 @@ public class DepthFirstSearch{
 	 */
 	public double search(Vertex startVertex, Vertex destVertex) {
 
-		double pathCost;
-		int numEdges;
-		boolean[] visited;
+		double pathCost = 0;
+		int numEdges = 0;
+		boolean[] visited = new boolean[this.graph.size()];
+		String pathStr = startVertex.getVertexVal() + "";
+		visited[startVertex.getVertexVal()] = true;
 		
-		//for every outgoing edge from startVertex
-		for (Edge e : startVertex.getEdges()) {
-			//start path/edge count to 0 for each outgoing edge from the start vertex
-			visited = new boolean[this.graph.size()];
-			pathCost = 0;
-			numEdges = 0;
-
-			//if the vertex right next to the start vertex is the destination then we just add than edges cost to the ll
-			if (e.getDest() == destVertex.getVertexVal()) {
-				averagePathRatings.add((double)e.getRating());
-
-			}else/*otherwise we visit the next vertex*/{
-
-				//add an edge and the edge cost to the counters
-				pathCost += e.getRating();
-				numEdges++;			
-				//pass the edge count and path cost variables when visiting next vertex
-				System.out.println("Visiting: " + e.getDest());
-				//visited[e.getDest()] = true;
-				visit(graph.getVertex(e.getDest()), destVertex, pathCost, numEdges, visited);
-			}
-		}
+		visit(startVertex,destVertex, pathCost, numEdges, visited, pathStr);
 
 		//once we are done searched we have all average path ratings from startVertex to destVertex in the linked list
 		int countPaths = 0;
@@ -83,17 +64,17 @@ public class DepthFirstSearch{
 	 * @param startVertex, destVertex, pathCost, numEdges, visited
 	 *
 	 */
-	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited) {
+	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited, String pathStr) {
 		//Create new temp counters of the current path cost and number of edges since every edge needs the original counts.
 		double tempCost;
 		int tempEdges;
-
-
+		String tempStr;
 		//for every outgoing edge
 		for (Edge e : startVertex.getEdges()) {
 			//reset temp variables
 			tempCost = pathCost;
 			tempEdges = numEdges;
+			tempStr = pathStr;
 
 			//if we reached the dest vertex 
 			if (e.getDest() == destVertex.getVertexVal()) {
@@ -101,6 +82,7 @@ public class DepthFirstSearch{
 				tempCost += e.getRating();
 				tempEdges++;
 				//add the average path cost to the ll
+				System.out.println("Path: " + tempStr + "->" + e.getDest());
 				System.out.println("path cost: " + tempCost);
 				averagePathRatings.add((double)(tempCost/tempEdges));
 				System.out.println("Averaged with number of edges: " + (double)(tempCost/tempEdges));
@@ -113,8 +95,14 @@ public class DepthFirstSearch{
 				tempCost += e.getRating();
 				System.out.println("Visiting: " + e.getDest());
 				System.out.println("marking visited");
+
+				//set this vertex the visited since we don't want to cycle back to it
+				tempStr += "->" + e.getDest(); 
 				visited[e.getDest()] = true;
-				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited);
+				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited, tempStr);
+				//reset the node the be not visited since the next edge in the iteration might lead back
+				//to this vertex
+				visited[e.getDest()] = false;
 			}
 		}
 	}
