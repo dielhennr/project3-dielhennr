@@ -42,13 +42,14 @@ public class DepthFirstSearch{
 		boolean[] visited = new boolean[this.graph.size()];
 		String pathStr = startVertex.getVertexVal() + "";
 		visited[startVertex.getVertexVal()] = true;
-		
+		System.out.println("----------------");
 		visit(startVertex,destVertex, pathCost, numEdges, visited, pathStr);
 
 		//once we are done searched we have all average path ratings from startVertex to destVertex in the linked list
 		int countPaths = 0;
 		double sumPathAvgs = 0;
-		System.out.println(averagePathRatings.size());
+		System.out.printf("Number of paths from vertex %d to %d is %d\n",startVertex.getVertexVal(), 
+			destVertex.getVertexVal(), averagePathRatings.size());
 		for (Double d : averagePathRatings) {
 			sumPathAvgs += d;
 			countPaths++;
@@ -82,10 +83,12 @@ public class DepthFirstSearch{
 				tempCost += e.getRating();
 				tempEdges++;
 				//add the average path cost to the ll
-				System.out.println("Path: " + tempStr + "->" + e.getDest());
-				System.out.println("path cost: " + tempCost);
+				tempStr += "->" + e.getDest();
+				System.out.printf("Path: %s\n", tempStr);
+				System.out.printf("Cost: %.2f ", tempCost);
 				averagePathRatings.add((double)(tempCost/tempEdges));
-				System.out.println("Averaged with number of edges: " + (double)(tempCost/tempEdges));
+				System.out.printf("Averaged with number of edges (%d): %.2f\n", tempEdges, (double)(tempCost/tempEdges));
+				System.out.println("----------------");
 
 			}
 			//visit until we find destVertex
@@ -93,9 +96,6 @@ public class DepthFirstSearch{
 				//summing costs
 				tempEdges++;
 				tempCost += e.getRating();
-				System.out.println("Visiting: " + e.getDest());
-				System.out.println("marking visited");
-
 				//set this vertex the visited since we don't want to cycle back to it
 				tempStr += "->" + e.getDest(); 
 				visited[e.getDest()] = true;
