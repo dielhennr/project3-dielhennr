@@ -57,8 +57,16 @@ public class Driver {
 		try(Scanner scan1 = new Scanner(new File(args[0])).useDelimiter("\n|,")){
 			while(scan1.hasNextLine()){
 				String[] line = scan1.nextLine().split(",");
-				int source = Integer.parseInt(line[0]); 
-				int dest = Integer.parseInt(line[1]); 
+				int source = 0;
+				int dest = 0;
+				try{
+					source = Integer.parseInt(line[0]); 
+					dest = Integer.parseInt(line[1]); 
+				}catch(NumberFormatException e) {
+					System.out.println("Error reading file, make sure entries are as follows where each <entry> is an integer");
+					System.out.println("<source> , <destination> , <rating>");
+					System.exit(0);
+				}
 				if (source > max || dest > max) {
 					max = Math.max(source, dest);
 				}
@@ -87,6 +95,11 @@ public class Driver {
 				DepthFirstSearch pathfinder = new DepthFirstSearch(adjList);
 				double average = pathfinder.search(adjList.getVertex(startNode), adjList.getVertex(destNode));
 				System.out.printf("Average path rating: %.2f\n", average);
+				/*
+				for (Vertex v : adjList.getVertices()) {
+					System.out.println(v.getVertexVal());
+				}
+				*/
 			}else{
 				System.out.println("Enter 0 for BFS and 1 for DFS.");
 				System.out.println("If using DFS enter the destination node instead of min rating");
