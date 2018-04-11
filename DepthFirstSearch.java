@@ -68,9 +68,12 @@ public class DepthFirstSearch{
 	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited, String pathStr) {
 
 		//We only want paths close to the start node so we will not look for paths with more than 6 edges
+		/*
 		if (numEdges >= 6) {
 			return;
 		}
+		*/
+		
 
 		//Create new temp counters of the current path cost and number of edges since every edge needs the original counts.
 		double tempCost;
@@ -80,9 +83,12 @@ public class DepthFirstSearch{
 		for (Edge e : startVertex.getEdges()) {
 
 			//If the rating of an edge is less than 0 we do not cross it
+			/*
 			if (e.getRating() < 0) {
 				continue;
 			}
+			*/
+			
 			//reset temp variables
 			tempCost = pathCost;
 			tempEdges = numEdges;
@@ -113,7 +119,6 @@ public class DepthFirstSearch{
 				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited, tempStr);
 				//reset the node the be not visited since the next edge in the iteration might lead back
 				//to this vertex
-				visited[e.getDest()] = false;
 				continue;
 			}
 		}
