@@ -106,7 +106,6 @@ public class DepthFirstSearch{
 				averagePathRatings.add((double)(tempCost/tempEdges));
 				System.out.printf("Averaged with number of edges (%d): %.2f\n", tempEdges, (double)(tempCost/tempEdges));
 				System.out.println("----------------");
-				continue;
 			}
 			//visit until we find destVertex
 			else if (!visited[e.getDest()]){
@@ -119,7 +118,7 @@ public class DepthFirstSearch{
 				visit(graph.getVertex(e.getDest()), destVertex, tempCost, tempEdges, visited, tempStr);
 				//reset the node the be not visited since the next edge in the iteration might lead back
 				//to this vertex
-				continue;
+				visited[e.getDest()] = false;
 			}
 		}
 	}
