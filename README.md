@@ -2,8 +2,6 @@
 
 ## Usage
 
-**NOTE** DFS is not currently working for large inputs (stackoverflow). Trouble resolving base case for graphs with cycles.
-
 java Driver filename.csv startNode minimumRating 0
 
 or
@@ -50,4 +48,8 @@ If Depth First Search is selected as the algorithm (1 as last argument), then we
 Given a starting user id and a minimum rating, we find all reachable nodes from the start node such that we never cross an edge whose cost is less than the minimum rating.
 
 ### Depth First Search
-Given a starting user id and a destination id, we find the average rating across all possible paths to the destination id. 
+Given a starting user id and a destination id, we find the average rating across all possible paths with up to 6 edges to the destination id. Paths with more than 6 edges are not counted to reduce the runtime of the algorithm.
+
+**NOTE TO GRADER**
+
+EJ said to submit this version where I only count paths with <= 6 edges. The code that does this is on line 73-75 of the DepthFirstSearch.java file. If commented out, the algorithm will run normally.

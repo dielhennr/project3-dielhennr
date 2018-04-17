@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+
 /**
  * Searches paths from a starting user to a destination user and finds the average path ratings.
  * Uses a modified Depth First Search to do so.
@@ -18,7 +19,7 @@ public class DepthFirstSearch{
 	 * We add a value to the linked list once we reach the destination vertex.
 	 */
 	private LinkedList<Double> averagePathRatings;
-	private AdjacencyList graph;
+	private AdjacencyList graph; 
 
 	/**
 	 * Constructor that accepts the graph that will be searched on and instantiates the linked
@@ -43,7 +44,7 @@ public class DepthFirstSearch{
 		String pathStr = startVertex.getVertexVal() + "";
 		visited[startVertex.getVertexVal()] = true;
 		System.out.println("----------------");
-		visit(startVertex,destVertex, pathCost, numEdges, visited, pathStr);
+		visit(startVertex, destVertex, pathCost, numEdges, visited, pathStr);
 
 		//once we are done searched we have all average path ratings from startVertex to destVertex in the linked list
 		int countPaths = 0;
@@ -68,26 +69,17 @@ public class DepthFirstSearch{
 	public void visit(Vertex startVertex, Vertex destVertex, double pathCost, int numEdges, boolean[] visited, String pathStr) {
 
 		//We only want paths close to the start node so we will not look for paths with more than 6 edges
-		/*
+		//This is to reduce the runtime and provide shorter paths
 		if (numEdges >= 6) {
 			return;
 		}
-		*/
 		
-
 		//Create new temp counters of the current path cost and number of edges since every edge needs the original counts.
 		double tempCost;
 		int tempEdges;
 		String tempStr;
 		//for every outgoing edge
 		for (Edge e : startVertex.getEdges()) {
-
-			//If the rating of an edge is less than 0 we do not cross it
-			/*
-			if (e.getRating() < 0) {
-				continue;
-			}
-			*/
 			
 			//reset temp variables
 			tempCost = pathCost;
@@ -119,6 +111,7 @@ public class DepthFirstSearch{
 				//reset the node the be not visited since the next edge in the iteration might lead back
 				//to this vertex
 				visited[e.getDest()] = false;
+				
 			}
 		}
 	}
