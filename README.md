@@ -1,5 +1,9 @@
 # Bitcoin user network
 
+## Compile
+
+javac *.java
+
 ## Usage
 
 java Driver filename.csv startNode minimumRating 0
@@ -50,6 +54,6 @@ Given a starting user id and a minimum rating, we find all reachable nodes from 
 ### Depth First Search
 Given a starting user id and a destination id, we find the average rating across all possible paths with up to 6 edges to the destination id. Paths with more than 6 edges are not counted to reduce the runtime of the algorithm.
 
-**NOTE TO GRADER**
+**NOTE TO USER**
 
-EJ said to submit this version where I only count paths with <= 6 edges. The code that does this is on line 73-75 of the DepthFirstSearch.java file. If commented out, the algorithm will run normally.
+This version only counts paths with <= 6 edges (for running time's sake). The code that does this is on line 73-75 of the DepthFirstSearch.java file. If commented out, the algorithm will run normally.
